@@ -34,7 +34,6 @@ impl Network {
     }
 
     fn eval_layer(&self, li: usize, last: &Vec<f64>) -> Vec<f64> {
-        println!("{:?}", self.size[li]);
         let mut out = vec![];
         for ti in 0..self.size[li] {
             let mut v = 0.0;

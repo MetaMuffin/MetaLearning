@@ -21,8 +21,8 @@ impl NetworkTrainer {
     }
 
     pub fn training_iteration(&mut self) {
-        self.decimate();
         self.populate();
+        self.decimate();
     }
 
     pub fn decimate(&mut self) {
@@ -39,7 +39,7 @@ impl NetworkTrainer {
         while self.networks.len() < self.population {
             let parent = &self.networks[rng.gen_range(0..self.networks.len())];
             let mut new = parent.clone();
-            // TODO mutation
+            new.mutate(self.mutation);
             self.networks.push(new)
         }
     }
