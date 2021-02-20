@@ -1,9 +1,24 @@
+use nn::{network::Network, trainer::NetworkTrainer, Datapair, Dataset};
+
 mod nn;
 
 fn main() {
-    let n = nn::network::Network::new(vec![2, 2 as usize], 2);
+    let dataset = Dataset(vec![
+        Datapair(vec![-1.0, -1.0], vec![-1.0]),
+        Datapair(vec![1.0, -1.0], vec![1.0]),
+        Datapair(vec![-1.0, 1.0], vec![1.0]),
+        Datapair(vec![1.0, 1.0], vec![1.0]),
+    ]);
 
-    let input = vec![1.0, -1.0];
-    let output = n.eval(input);
-    println!("{:?}", output);
+    let mut trainer = NetworkTrainer {
+        dataset,
+        networks: vec![Network::new(vec![2, 1 as usize], 2)],
+        population: 2,
+        decimation_count: 1,
+        accuracy_samples: 4,
+        mutation: 0.1,
+        verbose: true,
+    };
+
+    trainer.train(2);
 }
