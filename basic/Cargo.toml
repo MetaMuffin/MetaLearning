@@ -1,0 +1,8 @@
+[package]
+authors = ["MetaMuffin <metamuffin@yandex.com>"]
+edition = "2018"
+name = "basic"
+version = "0.1.0"
+
+[dependencies]
+metalearning = {path = "../metalearning"}

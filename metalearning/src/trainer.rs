@@ -11,11 +11,22 @@ pub struct NetworkTrainer {
     pub accuracy_samples: usize,
     pub mutation: f64,
     pub verbose: bool,
+
+    pub accuracy: f64
 }
 
 impl NetworkTrainer {
     pub fn train(&mut self, iterations: usize) {
-        for _ in 0..iterations {
+        println!();
+        for i in 0..iterations {
+            if self.verbose {
+                println!(
+                    "\x1b[1A\r\x1b[2Ktraining: {}/{} | average accuracy: {:.5}",
+                    i,
+                    iterations,
+                    self.accuracy
+                );
+            }
             self.training_iteration();
         }
     }
@@ -28,9 +39,13 @@ impl NetworkTrainer {
     pub fn decimate(&mut self) {
         let datapairs = &self.dataset;
         let ac = self.accuracy_samples;
+        let mut sum = 0.0;
         self.networks.sort_by_cached_key(|e| {
-            float_compareable(e.accuracy_set(datapairs.random(ac).as_slice()))
+            let a = e.accuracy_set(datapairs.get_n(ac).as_slice());
+            sum += a;
+            float_compareable(a)
         });
+        self.accuracy = sum / self.networks.len() as f64;
         self.networks.drain(0..self.decimation_count);
     }
 

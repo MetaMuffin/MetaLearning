@@ -5,7 +5,8 @@ use rand::Rng;
 pub struct Network {
     biases: Vec<Vec<f64>>,
     weights: Vec<Vec<Vec<f64>>>,
-    size: Vec<usize>
+    size: Vec<usize>,
+    pub last_acc: f64
 }
 
 
@@ -17,10 +18,10 @@ impl Network {
         for (li, lsize) in layers.iter().enumerate() {
             biases.push(zero_vec(*lsize));
             weights.push(Vec::new());
-            for ni in 0..*lsize {
+            for _ni in 0..*lsize {
                 let mut pnsize = input_size;
-                if ni > 0 {
-                    pnsize = layers[ni - 1];
+                if li > 0 {
+                    pnsize = layers[li - 1];
                 }
                 weights[li].push(random_vec(pnsize));
             }
@@ -30,6 +31,7 @@ impl Network {
             biases,
             weights,
             size: layers,
+            last_acc: 0.0,
         }
     }
 

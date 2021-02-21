@@ -1,6 +1,6 @@
-use nn::{network::Network, trainer::NetworkTrainer, Datapair, Dataset};
-
-mod nn;
+use metalearning::trainer::NetworkTrainer;
+use metalearning::{Dataset, Datapair};
+use metalearning::network::Network;
 
 fn main() {
     let mut t = NetworkTrainer {
